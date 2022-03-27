@@ -1,7 +1,9 @@
 package com.example.demo;
 import org.junit.jupiter.api.Test;
 
+import com.example.demo.money.Bank;
 import com.example.demo.money.Dollar;
+import com.example.demo.money.Expression;
 import com.example.demo.money.Franc;
 import com.example.demo.money.Money;
 
@@ -25,5 +27,14 @@ public class MoneyTest {
   public void testCurrency() {
     assertEquals("USD", Money.dollar(1).currency());
     assertEquals("CHF", Money.franc(1).currency());
+  }
+  
+  @Test
+  public void testSimpleAddition() {
+    Money five = Money.dollar(5);
+    Expression sum = five.plus(five);
+    Bank bank = new Bank();
+    Money reduced = bank.reduce(sum, "USD");
+    assertEquals(Money.dollar(10), reduced);
   }
 }
