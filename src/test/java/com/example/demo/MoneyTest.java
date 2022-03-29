@@ -2,9 +2,7 @@ package com.example.demo;
 import org.junit.jupiter.api.Test;
 
 import com.example.demo.money.Bank;
-import com.example.demo.money.Dollar;
 import com.example.demo.money.Expression;
-import com.example.demo.money.Franc;
 import com.example.demo.money.Money;
 import com.example.demo.money.Sum;
 
@@ -61,5 +59,18 @@ public class MoneyTest {
     Bank bank = new Bank();
     Money result = bank.reduce(Money.dollar(1), "USD");
     assertEquals(Money.dollar(1), result);
+  }
+  
+  @Test
+  public void testReduceMoneyDifferentCurrency() {
+    Bank bank = new Bank();
+    bank.addRate("CHF", "USD", 2);
+    Money result = bank.reduce(Money.franc(2), "USD");
+    assertEquals(Money.dollar(1), result);
+  }
+  
+  @Test
+  public void testIdentityRate() {
+    assertEquals(1, new Bank().rate("USD", "USD"));
   }
 }
